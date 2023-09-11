@@ -1,0 +1,71 @@
+{
+    "@@locale": "en",
+    "submitButtonText": "Save",
+    "@submitButtonText": {
+        "description": "Save text for submit buttons"
+    },
+    "counterAppBarTitle": "Purchases Tracker",
+    "@counterAppBarTitle": {
+        "description": "Text to be shown in the purchases overview page"
+    },
+    "editPurchaseTitle": "Edit a Purchase",
+    "@editPurchaseTitle": {
+        "description": "Text to shown edit a purchase's app bar as a title"
+    },
+    "newPurchaseTitle": "Create a Purchase",
+    "@newPurchaseTitle": {
+        "description": "Text to shown create a purchase's app bar as a title"
+    },
+    "editProductPageTitle": "Edit a Product",
+    "@editProductPageTitle": {
+        "description": "Text to shown edit a product page's app bar as a title"
+    },
+    "newProductPageTitle": "Add a Product",
+    "@newProductPageTitle": {
+        "description": "Text to shown add a product page's app bar as a title"
+    },
+    "noPurchasesText": "Add your first purchase",
+    "@noPurchasesText": {
+        "description": "Text to shown when is no purchases"
+    },
+    "editPurchaseTitleHint": "Name",
+    "@editPurchaseTitleHint": {
+        "description": "Text to shown in the text form field for label as a hint text"
+    },
+    "productNameFieldHint": "Vegetable oil",
+    "@productNameFieldHint": {
+        "description": "Hint text for the Product's textformfield"
+    },
+    "productPriceFieldHint": "Unit price",
+    "@productPriceFieldHint": {
+        "description": "Hint text for the Product's price textformfield"
+    },
+    "productMarkAsPreSaved": "Add this product as pre-saved",
+    "@productMarkAsPreSaved": {
+        "description": "Text along the presaved checkbox"
+    },
+    "productImageActionTitle": "What do you want to do?",
+    "@productImageActionTitle": {
+        "description": "Title for the options for the product image"
+    },
+    "productImageActionMessage": "Choose an option for photo selection",
+    "@productImageActionMessage": {
+        "description": "Message for the options for the product image"
+    },
+    "takeAPhotoOption": "Take a photo",
+    "@takeAPhotoOption": {
+        "description": "option to take a photo"
+    },
+    "pickAPhotoOption": "Select a photo",
+    "@pickAPhotoOption": {
+        "description": "Option to select a photo"
+    },
+    "removeAPhotoOption": "Remove photo",
+    "@removeAPhotoOption": {
+        "description": "Option to remove a photo"
+    },
+    "cancelOption": "Cancel",
+    "@cancelOption": {
+        "description": "Option to cancel take a photo"
+    }
+}

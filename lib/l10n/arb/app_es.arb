@@ -1,0 +1,70 @@
+{
+    "@@locale": "es",
+    "submitButtonText": "Guardar",
+    "@submitButtonText": {
+        "description": "Texto Guardar para botones"
+    },
+    "counterAppBarTitle": "Rastreador de Compras",
+    "@counterAppBarTitle": {
+        "description": "Texto mostrado en la AppBar de la página de las compras"
+    },
+    "noPurchasesText": "Agrega tu primera compra",
+    "@noPurchasesText": {
+        "description": "Texto mostrado en la lista de compras cuando no hay compras"
+    },
+    "newProductPageTitle": "Agregar un Producto",
+    "@newProductPageTitle": {
+        "description": "Texto a mostarse en el appbar de la pagina para agregar un producto"
+    },
+    "editProductPageTitle": "Editar un Producto",
+    "@editProductPageTitle": {
+        "description": "Texto a mostarse en el appbar de la pagina para editar un producto"
+    },
+    "editPurchaseTitle": "Editar una Compra",
+    "@editPurchaseTitle": {
+        "description": "Texto a mostrarse en el app bar de la pagina editar una compra"
+    },
+    "newPurchaseTitle": "Crear una Compra",
+    "@newPurchaseTitle": {
+        "description": "Texto a mostrarse en el app bar de la pagina editar una compra"
+    },
+    "editPurchaseTitleHint": "Nombre",
+    "@editPurchaseTitleHint": {
+        "description": "Texto a mostrarse en el text form field del nombre de la compra como hint"
+    },
+    "productNameFieldHint": "Aceite vegetal",
+    "@productNameFieldHint": {
+        "description": "Hint text pare el textformfield del nombre del producto"
+    },
+    "productPriceFieldHint": "Precio unitario",
+    "@productPriceFieldHint": {
+        "description": "Texto de pista para mostrar en el campo del precio de un producto"
+    },
+    "productMarkAsPreSaved": "Agregar este producto como pre-registrado",
+    "@productMarkAsPreSaved": {
+        "description": "Text junto al checbox para guardar el producto como pre registrado"
+    },
+    "productImageActionTitle": "¿Que deseas hacer?",
+    "@productImageActionTitle": {
+        "description": "Titulo para las opciones para la imagen del producto"
+    },
+    "productImageActionMessage": "Elija una opción de selección de fotos",
+    "@productImageActionMessage": {
+        "description": "Mensaje para las opciones de la imagen del producto"
+    },
+    "takeAPhotoOption": "Tomar una foto",
+    "@takeAPhotoOption": {
+        "description": "Opcion para tomar una foto"
+    },
+    "pickAPhotoOption": "Seleccionar una foto",
+    "@pickAPhotoOption": {
+        "description": "Opcion para seleccionar una foto"
+    },"removeAPhotoOption": "Remover foto",
+    "@removeAPhotoOption": {
+        "description": "Opcion para remover una foto"
+    },
+    "cancelOption": "Cancelar",
+    "@cancelOption": {
+        "description": "Opcion para cancelar tomar una foto"
+    }
+}

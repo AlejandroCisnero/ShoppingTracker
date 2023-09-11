@@ -1,0 +1,39 @@
+name: shopping_tracker
+description: An application to keep track of your grocery shopping.
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: ">=2.18.0 <3.0.0"
+
+dependencies:
+  bloc: ^8.1.1
+  cupertino_icons: ^1.0.0
+  equatable: ^2.0.3
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^8.1.2
+  flutter_localizations:
+    sdk: flutter
+  image_picker: ^1.0.2
+  intl: ^0.17.0
+  local_storage_purchases_api:
+    path: packages/local_storage_purchases_api
+  path: ^1.8.2
+  path_provider: ^2.1.0
+  purchases_api:
+    path: packages/purchases_api
+  purchases_repository:
+    path: packages/purchases_repository
+  shared_preferences: ^2.1.1
+
+dev_dependencies:
+  bloc_test: ^9.1.1
+  flutter_test:
+    sdk: flutter
+  mocktail: ^0.3.0
+  very_good_analysis: ^3.1.0
+
+flutter:
+  uses-material-design: true
+  generate: true
