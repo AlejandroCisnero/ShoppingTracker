@@ -16,7 +16,7 @@ dependencies:
   flutter_bloc: ^8.1.2
   flutter_localizations:
     sdk: flutter
-  image_picker: ^1.0.2
+  image_picker: ^1.0.4
   intl: ^0.17.0
   local_storage_purchases_api:
     path: packages/local_storage_purchases_api
