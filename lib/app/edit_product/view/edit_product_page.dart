@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,47 +53,51 @@ class EditProductPage extends StatelessWidget {
           title: Text(l10n.productImageActionTitle),
           message: Text(l10n.productImageActionMessage),
           actions: <CupertinoActionSheetAction>[
-            if (state.imagePath != null && state.imagePath!.isNotEmpty)
+            if (state.imagePath != null)
               CupertinoActionSheetAction(
                 onPressed: () {
-                  // context.read<EditProductBloc>().add(
-                  //       const EditProductPhotoChanged(
-                  //         source: ImageSource.gallery,
-                  //       ),
-                  //     );
                   Navigator.of(context).pop();
+                  showImageViewer(
+                    context,
+                    FileImage(
+                      File(state.imagePath!),
+                    ),
+                    doubleTapZoomable: true,
+                  );
                 },
                 child: const Text('View Image'),
               ),
             CupertinoActionSheetAction(
               onPressed: () {
+                Navigator.of(context).pop();
                 context.read<EditProductBloc>().add(
                       const EditProductPhotoChanged(
                         source: ImageSource.gallery,
                       ),
                     );
-                Navigator.of(context).pop();
               },
               child: Text(l10n.pickAPhotoOption),
             ),
             CupertinoActionSheetAction(
               onPressed: () {
+                Navigator.of(context).pop();
                 context.read<EditProductBloc>().add(
                       const EditProductPhotoChanged(),
                     );
-                Navigator.of(context).pop();
               },
               child: Text(l10n.takeAPhotoOption),
             ),
-            CupertinoActionSheetAction(
-              onPressed: () {
-                context.read<EditProductBloc>().add(
-                      const EditProductPhotoChanged(removePhoto: true),
-                    );
-                Navigator.of(context).pop();
-              },
-              child: Text(l10n.removeAPhotoOption),
-            ),
+            if (state.imagePath != null)
+              CupertinoActionSheetAction(
+                isDestructiveAction: true,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  context.read<EditProductBloc>().add(
+                        const EditProductPhotoChanged(removePhoto: true),
+                      );
+                },
+                child: Text(l10n.removeAPhotoOption),
+              ),
             CupertinoActionSheetAction(
               isDestructiveAction: true,
               onPressed: () => Navigator.of(context).pop(),
@@ -497,9 +502,11 @@ class EditProductPage extends StatelessWidget {
                                 ),
                               ),
                               child: AnimatedSwitcher(
-                                duration: const Duration(microseconds: 200),
-                                child: state.imagePath != null &&
-                                        state.imagePath!.isNotEmpty
+                                duration: const Duration(milliseconds: 500),
+                                reverseDuration: const Duration(
+                                  milliseconds: 500,
+                                ),
+                                child: state.imagePath != null
                                     ? Image.file(
                                         File(state.imagePath!),
                                         fit: BoxFit.cover,
@@ -561,7 +568,7 @@ class EditProductPage extends StatelessWidget {
                               .copyWith(
                             name: state.name,
                             price: state.price,
-                            imagePath: state.imagePath,
+                            imagePath: () => state.imagePath,
                             isPreSaved: state.isPreSaved,
                             quantity: state.quantity,
                           ),

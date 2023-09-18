@@ -26,7 +26,7 @@ class Product extends Equatable {
     required this.name,
     required this.price,
     required this.quantity,
-    this.imagePath = '',
+    this.imagePath,
     this.isPreSaved = false,
     String? uuid,
   })  : assert(
@@ -66,7 +66,7 @@ class Product extends Equatable {
   Product copyWith({
     String? name,
     double? price,
-    String? imagePath,
+    String? Function()? imagePath,
     bool? isPreSaved,
     int? quantity,
   }) {
@@ -74,7 +74,7 @@ class Product extends Equatable {
       uuid: uuid,
       name: name ?? this.name,
       price: price ?? this.price,
-      imagePath: imagePath ?? this.imagePath,
+      imagePath: imagePath != null ? imagePath() : this.imagePath,
       isPreSaved: isPreSaved ?? this.isPreSaved,
       quantity: quantity ?? this.quantity,
     );
