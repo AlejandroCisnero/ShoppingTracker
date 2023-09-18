@@ -27,12 +27,19 @@ class PurchasesOverviewView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    late final colorScheme = Theme.of(context).colorScheme;
+    late final backgroundColor = Color.alphaBlend(
+      colorScheme.primary.withOpacity(0.14),
+      colorScheme.surface,
+    );
     final l10n = context.l10n;
     final status = context.read<PurchasesBloc>().state.status;
     if (Platform.isIOS) {
       return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
-          middle: Text(l10n.counterAppBarTitle),
+          middle: Text(
+            l10n.counterAppBarTitle,
+          ),
           trailing: CupertinoButton(
             padding: EdgeInsets.zero,
             onPressed: () {
@@ -51,9 +58,14 @@ class PurchasesOverviewView extends StatelessWidget {
       );
     } else {
       return Scaffold(
+        backgroundColor: backgroundColor,
         appBar: AppBar(
-          title: Text(l10n.counterAppBarTitle),
-          backgroundColor: Theme.of(context).backgroundColor,
+          title: Text(
+            l10n.counterAppBarTitle,
+            style: TextStyle(
+              color: colorScheme.onPrimary,
+            ),
+          ),
         ),
         body: const PurchasesOverviewViewScaffoldBody(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -61,14 +73,26 @@ class PurchasesOverviewView extends StatelessWidget {
           builder: (context, state) {
             return FloatingActionButton(
               key: const Key('purchasesview_add_floatingActionButton'),
+              backgroundColor: colorScheme.tertiaryContainer,
+              foregroundColor: colorScheme.onTertiaryContainer,
               onPressed: () {
                 Navigator.of(context).push(EditPurchasePage.route());
               },
               child: state.status == PurchasesOverviewStatus.loading
-                  ? const Center(
-                      child: CircularProgressIndicator(),
+                  ? SizedBox(
+                      height: 26,
+                      width: 26,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: colorScheme.onPrimary,
+                          strokeWidth: 3,
+                        ),
+                      ),
                     )
-                  : const Icon(Icons.add),
+                  : Icon(
+                      Icons.add,
+                      color: colorScheme.onPrimary,
+                    ),
             );
           },
         ),

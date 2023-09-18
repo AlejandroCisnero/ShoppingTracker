@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,14 +38,32 @@ class EditProductPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    late final colorScheme = Theme.of(context).colorScheme;
+    late final backgroundColor = Color.alphaBlend(
+      colorScheme.primary.withOpacity(0.14),
+      colorScheme.surface,
+    );
 
     Future<void> onImageTap() async {
+      final state = context.read<EditProductBloc>().state;
       await showCupertinoModalPopup<void>(
         context: context,
         builder: (_) => CupertinoActionSheet(
           title: Text(l10n.productImageActionTitle),
           message: Text(l10n.productImageActionMessage),
           actions: <CupertinoActionSheetAction>[
+            if (state.imagePath != null && state.imagePath!.isNotEmpty)
+              CupertinoActionSheetAction(
+                onPressed: () {
+                  // context.read<EditProductBloc>().add(
+                  //       const EditProductPhotoChanged(
+                  //         source: ImageSource.gallery,
+                  //       ),
+                  //     );
+                  Navigator.of(context).pop();
+                },
+                child: const Text('View Image'),
+              ),
             CupertinoActionSheetAction(
               onPressed: () {
                 context.read<EditProductBloc>().add(
@@ -88,17 +107,8 @@ class EditProductPage extends StatelessWidget {
       listenWhen: (previous, current) => previous.status != current.status,
       listener: (context, state) {
         switch (state.status) {
-          case ProductStatus.initial:
-            // TODO: Handle this case.
-            break;
-          case ProductStatus.loading:
-            // TODO: Handle this case.
-            break;
           case ProductStatus.success:
             Navigator.of(context).pop();
-            break;
-          case ProductStatus.failure:
-            // TODO: Handle this case.
             break;
           case ProductStatus.quantityUnderZero:
             ScaffoldMessenger.of(context)
@@ -113,17 +123,67 @@ class EditProductPage extends StatelessWidget {
                 ),
               );
             break;
+          // ignore: no_default_cases
+          default:
+            return;
         }
       },
       child: BlocBuilder<EditProductBloc, EditProductState>(
         builder: (context, state) {
           return Scaffold(
+            backgroundColor: backgroundColor,
             appBar: AppBar(
+              backgroundColor: Colors.white,
               title: Text(
                 context.read<EditProductBloc>().state.isNewProduct
                     ? l10n.newProductPageTitle
                     : l10n.editProductPageTitle,
+                style: TextStyle(color: colorScheme.onBackground),
               ),
+              leading: GestureDetector(
+                onTap: () => Navigator.of(context).pop(),
+                child: Icon(
+                  Icons.arrow_back,
+                  color: colorScheme.onBackground,
+                ),
+              ),
+              actions: [
+                BlocBuilder<EditProductBloc, EditProductState>(
+                  buildWhen: (previous, current) {
+                    return previous.showDoneButton != current.showDoneButton;
+                  },
+                  builder: (context, state) {
+                    return AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 100),
+                      reverseDuration: const Duration(milliseconds: 100),
+                      child: state.showDoneButton
+                          ? CupertinoButton(
+                              key: const Key(
+                                'edit_product_page_appbar_done_button',
+                              ),
+                              onPressed: () {
+                                context.read<EditProductBloc>().add(
+                                      const EditProductShowDoneButton(
+                                        showDoneButton: false,
+                                      ),
+                                    );
+                                FocusScope.of(context).unfocus();
+                              },
+                              child: Text(
+                                key: const Key('done_button_text'),
+                                'Done',
+                                style: CupertinoTheme.of(context)
+                                    .textTheme
+                                    .navActionTextStyle,
+                              ),
+                            )
+                          : const Center(
+                              child: SizedBox.shrink(),
+                            ),
+                    );
+                  },
+                ),
+              ],
             ),
             body: LayoutBuilder(
               builder: (context, constraints) {
@@ -134,6 +194,11 @@ class EditProductPage extends StatelessWidget {
                       children: [
                         TextFormField(
                           initialValue: state.name,
+                          onTap: () => context.read<EditProductBloc>().add(
+                                const EditProductShowDoneButton(
+                                  showDoneButton: true,
+                                ),
+                              ),
                           onChanged: (value) {
                             context.read<EditProductBloc>().add(
                                   EditProductNameChanged(
@@ -141,6 +206,12 @@ class EditProductPage extends StatelessWidget {
                                   ),
                                 );
                           },
+                          onFieldSubmitted: (value) =>
+                              context.read<EditProductBloc>().add(
+                                    const EditProductShowDoneButton(
+                                      showDoneButton: false,
+                                    ),
+                                  ),
                           enableSuggestions: false,
                           textCapitalization: TextCapitalization.words,
                           keyboardType: TextInputType.text,
@@ -196,6 +267,18 @@ class EditProductPage extends StatelessWidget {
                                 child: TextFormField(
                                   initialValue: state.initialProduct?.price
                                       .toStringAsFixed(2),
+                                  onTap: () =>
+                                      context.read<EditProductBloc>().add(
+                                            const EditProductShowDoneButton(
+                                              showDoneButton: true,
+                                            ),
+                                          ),
+                                  onFieldSubmitted: (value) =>
+                                      context.read<EditProductBloc>().add(
+                                            const EditProductShowDoneButton(
+                                              showDoneButton: false,
+                                            ),
+                                          ),
                                   onChanged: (value) {
                                     context.read<EditProductBloc>().add(
                                           EditProductPriceChanged(

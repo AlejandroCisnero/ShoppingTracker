@@ -10,6 +10,7 @@ dependencies:
   bloc: ^8.1.1
   cupertino_icons: ^1.0.0
   equatable: ^2.0.3
+  easy_image_viewer: ^1.2.1
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.2
@@ -37,3 +38,15 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+  fonts:
+    - family: SF-Pro-Display
+      fonts:
+        - asset: assets/fonts/san_fransisco_pro/SF-Pro-Display-Bold.otf
+          weight: 900
+        - asset: assets/fonts/san_fransisco_pro/SF-Pro-Display-BoldItalic.otf        
+          style: italic
+          weight: 900
+        - asset: assets/fonts/san_fransisco_pro/SF-Pro-Display-Semibold.otf        
+          weight: 700
+        - asset: assets/fonts/san_fransisco_pro/SF-Pro-Display-SemiboldItalic.otf        
+          style: italic

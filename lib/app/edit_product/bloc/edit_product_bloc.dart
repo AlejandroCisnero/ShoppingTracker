@@ -33,6 +33,7 @@ class EditProductBloc extends Bloc<EditProductEvent, EditProductState> {
       onEditProductPreregisteredChecBoxChanged,
     );
     on<EditProductSubmit>(onEditProductSubmit);
+    on<EditProductShowDoneButton>(onEditProductShowDoneButton);
   }
 
   void onEditProductTitleChanged(
@@ -97,7 +98,7 @@ class EditProductBloc extends Bloc<EditProductEvent, EditProductState> {
     if (event.removePhoto) {
       emit(
         state.copyWith(
-          imagePath: '',
+          imagePath: () => null,
           status: ProductStatus.loading,
         ),
       );
@@ -114,7 +115,7 @@ class EditProductBloc extends Bloc<EditProductEvent, EditProductState> {
       final copiedImage = await imagePicked.copy('${appDir.path}/$fileName');
       emit(
         state.copyWith(
-          imagePath: copiedImage.path,
+          imagePath: () => copiedImage.path,
         ),
       );
     }
@@ -135,6 +136,17 @@ class EditProductBloc extends Bloc<EditProductEvent, EditProductState> {
   ) {
     emit(
       state.copyWith(status: ProductStatus.success),
+    );
+  }
+
+  void onEditProductShowDoneButton(
+    EditProductShowDoneButton event,
+    Emitter<EditProductState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        showDoneButton: event.showDoneButton,
+      ),
     );
   }
 }

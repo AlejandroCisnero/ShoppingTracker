@@ -44,14 +44,20 @@ class EditPurchaseView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
+    late final colorScheme = Theme.of(context).colorScheme;
+    late final backgroundColor = Color.alphaBlend(
+      colorScheme.primary.withOpacity(0.14),
+      colorScheme.surface,
+    );
+
     return BlocBuilder<EditPurchaseBloc, EditPurchaseState>(
       builder: (context, state) {
         return Scaffold(
-          resizeToAvoidBottomInset: false,
+          backgroundColor: backgroundColor,
           appBar: AppBar(
             leading: GestureDetector(
               onTap: () async {
-                var userChoice = await showCupertinoDialog<bool>(
+                final userChoice = await showCupertinoDialog<bool>(
                   context: context,
                   builder: (ctx) => const OnBackAlertPopUp(),
                 );
@@ -62,12 +68,18 @@ class EditPurchaseView extends StatelessWidget {
                   Navigator.of(context).pop();
                 }
               },
-              child: const BackButtonIcon(),
+              child: Icon(
+                Icons.arrow_back,
+                color: colorScheme.onPrimary,
+              ),
             ),
             title: Text(
               state.isNewPurchase
                   ? l10n.newPurchaseTitle
                   : l10n.editPurchaseTitle,
+              style: TextStyle(
+                color: colorScheme.onPrimary,
+              ),
             ),
           ),
           body: Padding(
@@ -98,9 +110,7 @@ class EditPurchaseView extends StatelessWidget {
                         color: Colors.blueAccent,
                       ),
                       borderRadius: BorderRadius.all(
-                        Radius.circular(
-                          15,
-                        ),
+                        Radius.circular(15),
                       ),
                     ),
                     errorBorder: const OutlineInputBorder(
@@ -121,7 +131,7 @@ class EditPurchaseView extends StatelessWidget {
                 const SizedBox(
                   height: 5,
                 ),
-                const Flexible(
+                const Expanded(
                   child: _ProductsList(),
                 ),
                 const SizedBox(
@@ -292,69 +302,69 @@ class _ProductsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          margin: const EdgeInsets.only(top: 8, bottom: 15),
-          padding: const EdgeInsets.all(5),
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.amber,
-            ),
-            borderRadius: const BorderRadius.all(
-              Radius.circular(15),
-            ),
+    late final colorScheme = Theme.of(context).colorScheme;
+
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Container(
+        clipBehavior: Clip.hardEdge,
+        margin: const EdgeInsets.only(top: 8, bottom: 15),
+        padding: const EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: colorScheme.secondary,
           ),
-          child: BlocBuilder<EditPurchaseBloc, EditPurchaseState>(
-            builder: (context, state) {
-              return ListView.separated(
-                separatorBuilder: (context, index) => const SizedBox(
-                  height: 5,
-                ),
-                itemBuilder: (context, index) => GestureDetector(
-                  onTap: () => Navigator.of(context).push(
-                    EditProductPage.route(
-                      editPurchaseBloc: context.read<EditPurchaseBloc>(),
-                      initialProduct: state.products[index],
-                    ),
-                  ),
-                  child: ProductTile(
-                    imagePath: state.products[index].imagePath,
-                    title: state.products[index].name,
-                    price: state.products[index].price,
-                    quantity: state.products[index].quantity,
-                    isPreSaved: state.products[index].isPreSaved!,
-                  ),
-                ),
-                itemCount: state.products.length,
-              );
-            },
+          borderRadius: const BorderRadius.all(
+            Radius.circular(15),
           ),
         ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            margin: const EdgeInsets.only(top: 15),
-            height: 32,
-            width: 32,
-            child: FloatingActionButton(
-              heroTag: 'addProductFloatingButton',
-              elevation: 0,
-              onPressed: () {
-                Navigator.of(context).push(
+        child: BlocBuilder<EditPurchaseBloc, EditPurchaseState>(
+          builder: (context, state) {
+            return ListView.separated(
+              separatorBuilder: (context, index) => const SizedBox(
+                height: 5,
+              ),
+              itemBuilder: (context, index) => GestureDetector(
+                onTap: () => Navigator.of(context).push(
                   EditProductPage.route(
                     editPurchaseBloc: context.read<EditPurchaseBloc>(),
+                    initialProduct: state.products[index],
                   ),
-                );
-              },
-              child: const Icon(
-                Icons.add,
-                size: 20,
+                ),
+                child: ProductTile(
+                  imagePath: state.products[index].imagePath,
+                  title: state.products[index].name,
+                  price: state.products[index].price,
+                  quantity: state.products[index].quantity,
+                  isPreSaved: state.products[index].isPreSaved!,
+                ),
               ),
-            ),
+              itemCount: state.products.length,
+            );
+          },
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Container(
+        height: 32,
+        width: 32,
+        margin: const EdgeInsets.only(top: 25),
+        child: FloatingActionButton(
+          heroTag: 'addProductFloatingButton',
+          elevation: 0,
+          onPressed: () {
+            Navigator.of(context).push(
+              EditProductPage.route(
+                editPurchaseBloc: context.read<EditPurchaseBloc>(),
+              ),
+            );
+          },
+          child: const Icon(
+            Icons.add,
+            size: 20,
           ),
         ),
-      ],
+      ),
     );
   }
 }

@@ -18,6 +18,7 @@ class EditProductState extends Equatable {
     this.imagePath,
     this.quantity = 1,
     this.total = 0,
+    this.showDoneButton = false,
   });
 
   final ProductStatus status;
@@ -29,6 +30,10 @@ class EditProductState extends Equatable {
   final int quantity;
   final double total;
 
+  //This bool is to decide to show the done button in the appbar or whataver
+  //place I need
+  final bool showDoneButton;
+
   bool get isNewProduct => initialProduct == null;
 
   EditProductState copyWith({
@@ -36,20 +41,22 @@ class EditProductState extends Equatable {
     Product? initialProduct,
     String? name,
     double? price,
-    String? imagePath,
+    String? Function()? imagePath,
     bool? isPreSaved,
     int? quantity,
     double? total,
+    bool? showDoneButton,
   }) {
     return EditProductState(
       status: status ?? this.status,
       initialProduct: initialProduct ?? this.initialProduct,
       name: name ?? this.name,
       price: price ?? this.price,
-      imagePath: imagePath ?? this.imagePath,
+      imagePath: imagePath != null ? imagePath() : this.imagePath,
       isPreSaved: isPreSaved ?? this.isPreSaved,
       quantity: quantity ?? this.quantity,
       total: total ?? this.total,
+      showDoneButton: showDoneButton ?? this.showDoneButton,
     );
   }
 
@@ -63,5 +70,6 @@ class EditProductState extends Equatable {
         isPreSaved,
         quantity,
         total,
+        showDoneButton,
       ];
 }

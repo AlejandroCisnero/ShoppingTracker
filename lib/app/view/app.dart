@@ -29,7 +29,14 @@ class AppView extends StatelessWidget {
   Widget build(BuildContext context) {
     if (Platform.isIOS) {
       return const CupertinoApp(
-        theme: CupertinoThemeData(brightness: Brightness.light),
+        theme: CupertinoThemeData(
+          brightness: Brightness.light,
+          textTheme: CupertinoTextThemeData(
+            navActionTextStyle: TextStyle(
+              fontFamily: 'SF-Pro-Display',
+            ),
+          ),
+        ),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: PurchasesOverviewPage(),
@@ -37,6 +44,7 @@ class AppView extends StatelessWidget {
     } else {
       return MaterialApp(
         theme: ThemeData(
+          useMaterial3: true,
           appBarTheme: const AppBarTheme(color: Color(0xFF13B9FF)),
           colorScheme: ColorScheme.fromSwatch(
             accentColor: const Color(0xFF13B9FF),

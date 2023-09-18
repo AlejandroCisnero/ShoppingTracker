@@ -65,4 +65,15 @@ class EditProductQuantityChanged extends EditProductEvent {
   });
 
   final bool increase;
+
+  @override
+  List<Object?> get props => [increase];
+}
+
+class EditProductShowDoneButton extends EditProductEvent {
+  const EditProductShowDoneButton({required this.showDoneButton});
+
+  final bool showDoneButton;
+  @override
+  List<Object?> get props => [showDoneButton];
 }
