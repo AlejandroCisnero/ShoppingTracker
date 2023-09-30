@@ -33,7 +33,7 @@ class PurchasesOverviewView extends StatelessWidget {
       colorScheme.surface,
     );
     final l10n = context.l10n;
-    final status = context.read<PurchasesBloc>().state.status;
+    final status = context.watch<PurchasesBloc>().state.status;
     if (Platform.isIOS) {
       return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
@@ -46,8 +46,12 @@ class PurchasesOverviewView extends StatelessWidget {
               Navigator.of(context).push(EditPurchasePage.route());
             },
             child: status == PurchasesOverviewStatus.loading
-                ? const Center(
-                    child: CupertinoActivityIndicator(),
+                ? const SizedBox(
+                    width: 36,
+                    height: 36,
+                    child: Center(
+                      child: CupertinoActivityIndicator(),
+                    ),
                   )
                 : const Icon(
                     Icons.create_outlined,

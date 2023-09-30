@@ -76,17 +76,6 @@ class EditProductBloc extends Bloc<EditProductEvent, EditProductState> {
             total: state.price * (state.quantity - 1),
           ),
         );
-      } else {
-        emit(
-          state.copyWith(
-            status: ProductStatus.quantityUnderZero,
-          ),
-        );
-        emit(
-          state.copyWith(
-            status: ProductStatus.initial,
-          ),
-        );
       }
     }
   }
