@@ -4,7 +4,7 @@ version: 1.0.0+1
 publish_to: none
 
 environment:
-  sdk: ">=2.18.0 <3.0.0"
+  sdk: ">=3.1.0 <3.13.6"
 
 dependencies:
   bloc: ^8.1.1
@@ -17,7 +17,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   image_picker: ^1.0.2
-  intl: ^0.17.0
+  intl: ^0.18.1
   local_storage_purchases_api:
     path: packages/local_storage_purchases_api
   path: ^1.8.2

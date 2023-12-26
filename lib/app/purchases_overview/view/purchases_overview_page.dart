@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchases_repository/purchases_repository.dart';
 import 'package:shopping_tracker/app/edit_purchase/view/edit_purchase_page.dart';
 import 'package:shopping_tracker/app/purchases_overview/overview_bloc/purchases_bloc.dart';
+import 'package:shopping_tracker/app/settings_page/settings_page.dart';
+import 'package:shopping_tracker/app/ui/theme/bloc/theme_bloc.dart';
 import 'package:shopping_tracker/l10n/l10n.dart';
 
 class PurchasesOverviewPage extends StatelessWidget {
@@ -28,80 +30,74 @@ class PurchasesOverviewView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     late final colorScheme = Theme.of(context).colorScheme;
-    late final backgroundColor = Color.alphaBlend(
-      colorScheme.primary.withOpacity(0.14),
-      colorScheme.surface,
-    );
     final l10n = context.l10n;
-    final status = context.watch<PurchasesBloc>().state.status;
-    if (Platform.isIOS) {
-      return CupertinoPageScaffold(
-        navigationBar: CupertinoNavigationBar(
-          middle: Text(
-            l10n.counterAppBarTitle,
+    return Scaffold(
+      backgroundColor: colorScheme.background,
+      appBar: AppBar(
+        backgroundColor: colorScheme.primaryContainer,
+        title: Text(
+          l10n.counterAppBarTitle,
+          style: TextStyle(
+            color: colorScheme.onBackground,
           ),
-          trailing: CupertinoButton(
-            padding: EdgeInsets.zero,
+        ),
+      ),
+      drawer: Container(
+        decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+        width: 200,
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 50),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: () {
+                Navigator.of(context).push(
+                  SettingsPage.route(),
+                );
+              },
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Settings'),
+                  Icon(Icons.settings),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+      body: const PurchasesOverviewViewScaffoldBody(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: BlocBuilder<PurchasesBloc, PurchasesState>(
+        builder: (context, state) {
+          return FloatingActionButton(
+            key: const Key('purchasesview_add_floatingActionButton'),
+            backgroundColor: colorScheme.primaryContainer,
+            foregroundColor: colorScheme.onPrimaryContainer,
             onPressed: () {
               Navigator.of(context).push(EditPurchasePage.route());
             },
-            child: status == PurchasesOverviewStatus.loading
-                ? const SizedBox(
-                    width: 36,
-                    height: 36,
+            child: state.status == PurchasesOverviewStatus.loading
+                ? SizedBox(
+                    height: 26,
+                    width: 26,
                     child: Center(
-                      child: CupertinoActivityIndicator(),
+                      child: CircularProgressIndicator(
+                        color: colorScheme.onPrimaryContainer,
+                        strokeWidth: 3,
+                      ),
                     ),
                   )
-                : const Icon(
-                    Icons.create_outlined,
+                : Icon(
+                    Icons.add,
+                    color: colorScheme.onPrimaryContainer,
                   ),
-          ),
-        ),
-        child: const PurchasesOverviewViewScaffoldBody(),
-      );
-    } else {
-      return Scaffold(
-        backgroundColor: backgroundColor,
-        appBar: AppBar(
-          title: Text(
-            l10n.counterAppBarTitle,
-            style: TextStyle(
-              color: colorScheme.onPrimary,
-            ),
-          ),
-        ),
-        body: const PurchasesOverviewViewScaffoldBody(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: BlocBuilder<PurchasesBloc, PurchasesState>(
-          builder: (context, state) {
-            return FloatingActionButton(
-              key: const Key('purchasesview_add_floatingActionButton'),
-              backgroundColor: colorScheme.tertiaryContainer,
-              foregroundColor: colorScheme.onTertiaryContainer,
-              onPressed: () {
-                Navigator.of(context).push(EditPurchasePage.route());
-              },
-              child: state.status == PurchasesOverviewStatus.loading
-                  ? SizedBox(
-                      height: 26,
-                      width: 26,
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          color: colorScheme.onPrimary,
-                          strokeWidth: 3,
-                        ),
-                      ),
-                    )
-                  : Icon(
-                      Icons.add,
-                      color: colorScheme.onPrimary,
-                    ),
-            );
-          },
-        ),
-      );
-    }
+          );
+        },
+      ),
+    );
   }
 }
 

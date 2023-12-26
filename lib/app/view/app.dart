@@ -1,10 +1,9 @@
-import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchases_repository/purchases_repository.dart';
 import 'package:shopping_tracker/app/purchases_overview/view/purchases_overview_page.dart';
+import 'package:shopping_tracker/app/ui/theme/bloc/theme_bloc.dart';
+import 'package:shopping_tracker/app/ui/theme/shopping_themes.dart';
 import 'package:shopping_tracker/l10n/l10n.dart';
 
 class App extends StatelessWidget {
@@ -17,7 +16,10 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
       value: _purchasesRepository,
-      child: const AppView(),
+      child: BlocProvider(
+        create: (context) => ThemeBloc(),
+        child: const AppView(),
+      ),
     );
   }
 }
@@ -27,33 +29,55 @@ class AppView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (Platform.isIOS) {
-      return const CupertinoApp(
-        theme: CupertinoThemeData(
-          brightness: Brightness.light,
-          textTheme: CupertinoTextThemeData(
-            navActionTextStyle: TextStyle(
-              fontFamily: 'SF-Pro-Display',
-            ),
-          ),
-        ),
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: PurchasesOverviewPage(),
-      );
-    } else {
-      return MaterialApp(
-        theme: ThemeData(
-          useMaterial3: true,
-          appBarTheme: const AppBarTheme(color: Color(0xFF13B9FF)),
-          colorScheme: ColorScheme.fromSwatch(
-            accentColor: const Color(0xFF13B9FF),
-          ),
-        ),
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: const PurchasesOverviewPage(),
-      );
-    }
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, state) {
+        return MaterialApp(
+          theme: state.isDark
+              ? appThemeData[AppThemeMode.dark]!
+              : appThemeData[AppThemeMode.light]!,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: const PurchasesOverviewPage(),
+        );
+      },
+    );
+    // if (Platform.isIOS) {
+    //   return CupertinoApp(
+    //     theme: CupertinoThemeData(
+    //       textTheme:
+    //           MediaQuery.of(context).platformBrightness == Brightness.dark
+    //               ? const CupertinoTextThemeData(
+    //                   navActionTextStyle: TextStyle(
+    //                     fontFamily: 'SF-Pro-Display',
+    //                     fontWeight: FontWeight.normal,
+    //                   ),
+    //                   textStyle: TextStyle(
+    //                     fontFamily: 'SF-Pro-Display',
+    //                     fontWeight: FontWeight.normal,
+    //                   ),
+    //                   navTitleTextStyle: TextStyle(
+    //                     fontFamily: 'SF-Pro-Display',
+    //                     fontWeight: FontWeight.normal,
+    //                     fontSize: 19,
+    //                   ),
+    //                 )
+    //               : const CupertinoTextThemeData(
+    //                   navActionTextStyle: TextStyle(
+    //                     fontFamily: 'SF-Pro-Display',
+    //                     fontWeight: FontWeight.normal,
+    //                   ),
+    //                   textStyle: TextStyle(
+    //                     fontFamily: 'SF-Pro-Display',
+    //                     fontWeight: FontWeight.normal,
+    //                   ),
+    //                 ),
+    //     ),
+    //     localizationsDelegates: AppLocalizations.localizationsDelegates,
+    //     supportedLocales: AppLocalizations.supportedLocales,
+    //     home: PurchasesOverviewPage(),
+    //   );
+    // } else {
+
+    // }
   }
 }

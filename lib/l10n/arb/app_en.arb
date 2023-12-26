@@ -8,6 +8,10 @@
     "@counterAppBarTitle": {
         "description": "Text to be shown in the purchases overview page"
     },
+    "settingsAppBarTitle": "Settings",
+    "@settingsAppBarTitle": {
+        "description": "App bar title in the settings app bar"
+    },
     "editPurchaseTitle": "Edit a Purchase",
     "@editPurchaseTitle": {
         "description": "Text to shown edit a purchase's app bar as a title"
@@ -67,5 +71,9 @@
     "cancelOption": "Cancel",
     "@cancelOption": {
         "description": "Option to cancel take a photo"
-    }
+    },
+    "darkModeOption": "Dark Mode",
+    "@darkModeOption": {
+        "description": "Dark mode toggle option's text"
+    }  
 }

@@ -8,6 +8,10 @@
     "@counterAppBarTitle": {
         "description": "Texto mostrado en la AppBar de la página de las compras"
     },
+    "settingsAppBarTitle": "Configuraciones",
+    "@settingsAppBarTitle": {
+        "description": "Titulo de la barra en la pantalla de configuraciones"
+    },
     "noPurchasesText": "Agrega tu primera compra",
     "@noPurchasesText": {
         "description": "Texto mostrado en la lista de compras cuando no hay compras"
@@ -66,5 +70,9 @@
     "cancelOption": "Cancelar",
     "@cancelOption": {
         "description": "Opcion para cancelar tomar una foto"
-    }
+    }    ,
+    "darkModeOption": "Tema Oscuro",
+    "@darkModeOption": {
+        "description": "Texto de la opcion tema oscuro"
+    }    
 }
